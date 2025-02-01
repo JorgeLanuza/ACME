@@ -1,0 +1,24 @@
+[
+  {
+    "Id": 1,
+    "FullName": "John Doe",
+    "Department": "Marketing",
+    "Telephone": "123-456-7890",
+    "Email": "johndoe@example.com",
+    "Mobile": "555-987-6543",
+    "UserId": "jdoe",
+    "Visits": [
+      {
+        "Id": "f5a5a1a5-1234-4b56-9876-1a2b3c4d5e6f",
+        "ClientName": "ACME Corp",
+        "VisitDate": "2024-01-20T14:00:00Z",
+        "Notes": "Successful meeting",
+        "IsDeleted": false,
+        "UserLastModified": "jdoe",
+        "DateLastModified": "2024-01-22T12:00:00Z",
+        "LogTimestamp": "2024-01-22T12:00:00Z",
+        "EmployeeId": 1
+      }
+    ]
+  }
+]

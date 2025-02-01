@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ACME.BL\ACME.BL.csproj" />
+    <ProjectReference Include="..\ACME.DataAccess\ACME.DataAccess.csproj" />
+    <ProjectReference Include="..\ACME.DependencyInjection\ACME.DependencyInjection.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,38 @@
+[
+  {
+    "Id": 1,
+    "AuthenticationId": "auth_123",
+    "Locked": false,
+    "LockedDate": null,
+    "Disabled": false,
+    "CreationDate": "2024-01-30T10:00:00Z",
+    "ViolationsCounter": 0,
+    "Profile": {
+      "Id": "d290f1ee-6c54-4b01-90e6-d701748f0851",
+      "FullName": "John Doe",
+      "Department": "Marketing",
+      "Telephone": "123-456-7890",
+      "Email": "johndoe@example.com",
+      "Mobile": "555-987-6543",
+      "UserId": "jdoe"
+    }
+  },
+  {
+    "Id": 2,
+    "AuthenticationId": "auth_456",
+    "Locked": false,
+    "LockedDate": null,
+    "Disabled": false,
+    "CreationDate": "2024-01-25T08:30:00Z",
+    "ViolationsCounter": 1,
+    "Profile": {
+      "Id": "d290f1ee-6c54-4b01-90e6-d701748f0852",
+      "FullName": "Jane Smith",
+      "Department": "Sales",
+      "Telephone": "321-654-0987",
+      "Email": "janesmith@example.com",
+      "Mobile": "555-123-4567",
+      "UserId": "jsmith"
+    }
+  }
+]

@@ -1,25 +1,29 @@
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+namespace ACME.WebApi
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    using Autofac.Extensions.DependencyInjection;
+    using Microsoft.AspNetCore.Hosting;
+    public class Program
+    {
+        private const string CONFIGURATION_FILE_NAME = "appsettings.json";
+        public static void Main(string[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
+        private static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            string currentPath = Directory.GetCurrentDirectory();
+            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
+                .SetBasePath(currentPath)
+                .AddJsonFile(CONFIGURATION_FILE_NAME, optional: false, reloadOnChange: true);
+            IHostBuilder host = Host.CreateDefaultBuilder(args)
+                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseConfiguration(configurationBuilder.Build());
+                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseIISIntegration();
+                });
+            return host;
+        }
+    }
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();

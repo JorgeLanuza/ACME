@@ -1,0 +1,12 @@
+[
+  {
+    "AuthenticationId": "auth_123",
+    "Password": "hashedpassword1",
+    "PasswordCreationDate": "2024-01-01T12:00:00Z"
+  },
+  {
+    "AuthenticationId": "auth_456",
+    "Password": "hashedpassword2",
+    "PasswordCreationDate": "2024-01-15T15:30:00Z"
+  }
+]
