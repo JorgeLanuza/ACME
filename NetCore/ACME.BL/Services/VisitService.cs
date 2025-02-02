@@ -161,14 +161,36 @@
             };
             try
             {
-                var visitEntities = await _jsonRepository.GetAllFromJsonAsync();
+                IEnumerable<VisitEntity> visitEntities = await _jsonRepository.GetAllFromJsonAsync();
                 ACMECollectionServiceResult.ResultObject.Items = _mapper.Map<List<VisitDto>>(visitEntities)!;
                 ACMECollectionServiceResult.ResultObject.CurrentPage = 1;
                 ACMECollectionServiceResult.ResultObject.PageCount = 1;
                 ACMECollectionServiceResult.ResultObject.PageSize = visitEntities.Count();
                 ACMECollectionServiceResult.ResultObject.RowCount = visitEntities.Count();
                 _logger.LogDebug(JsonConvert.SerializeObject(ACMECollectionServiceResult.ResultObject));
+                return ACMECollectionServiceResult;
 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error getting visits from Json", ex);
+            }
+        }
+        public async Task<ACMECollectionServiceResult<VisitDto, Guid>> GetAllNotDeletedFromJsonAsync()
+        {
+            ACMECollectionServiceResult<VisitDto, Guid> ACMECollectionServiceResult = new()
+            {
+                ResultObject = new DtoCollectionResult<VisitDto, Guid>()
+            };
+            try
+            {
+                IEnumerable<VisitEntity> visitEntities = await _jsonRepository.GetAllVisitsNotDeletedFromJsonAsync();
+                ACMECollectionServiceResult.ResultObject.Items = _mapper.Map<List<VisitDto>>(visitEntities)!;
+                ACMECollectionServiceResult.ResultObject.CurrentPage = 1;
+                ACMECollectionServiceResult.ResultObject.PageCount = 1;
+                ACMECollectionServiceResult.ResultObject.PageSize = visitEntities.Count();
+                ACMECollectionServiceResult.ResultObject.RowCount = visitEntities.Count();
+                _logger.LogDebug(JsonConvert.SerializeObject(ACMECollectionServiceResult.ResultObject));
                 return ACMECollectionServiceResult;
 
             }

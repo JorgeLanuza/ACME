@@ -27,7 +27,7 @@
         }
         public virtual async Task<ICollection<T>> GetAllAsync()
         {
-                return await _dbSet.ToListAsync();
+            return await _dbSet.ToListAsync();
         }
         public virtual async Task<T> GetByIdAsync(TId id)
         {
@@ -63,7 +63,7 @@
         }
         public virtual async Task<int> SaveAsync()
         {
-                return await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
         public virtual async Task DeleteAsync(TId id)
         {
@@ -82,12 +82,12 @@
         }
         public async Task<int> RemoveRangeAsync(IEnumerable<T> entities)
         {
-                _dbSet.RemoveRange(entities);
-                return await _context.SaveChangesAsync();
+            _dbSet.RemoveRange(entities);
+            return await _context.SaveChangesAsync();
         }
         public virtual IDbContextTransaction BeginTransaction()
         {
-                return _context.Database.BeginTransaction();
+            return _context.Database.BeginTransaction();
         }
         public void Dispose(bool disposing)
         {

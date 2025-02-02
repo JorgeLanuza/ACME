@@ -1,6 +1,7 @@
 ﻿namespace ACME.WebApi.Controllers
 {
     using ACME.BL;
+    using ACME.DataAccess.Entities;
     using ACME.DataAccess.Repositories;
     using ACME.Dtos;
     using Microsoft.AspNetCore.Mvc;
@@ -65,8 +66,29 @@
         {
             try
             {
-                var result = await _visitService.GetAllNotDeletedAsync();
+                ACMECollectionServiceResult<VisitDto, Guid> result = await _visitService.GetAllNotDeletedAsync();
                 return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Controller error. Method: GetAllNotDeletedAsync()");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+        /// <summary>
+        /// Acciones sobre el Json.
+        /// Obtiene todas las visitas que no han sido eliminadas.
+        /// </summary>
+        /// <returns>Lista de visitas no eliminadas.</returns>
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetAllNotDeletedFromJsonAsync()
+        {
+            try
+            {
+                ACMECollectionServiceResult<VisitDto, Guid> activeVisits = await _visitService.GetAllNotDeletedFromJsonAsync();
+                if (!activeVisits.ResultObject.Items.Any())
+                    return NotFound(new { message = "No active visits found" });
+                return Ok(activeVisits);
             }
             catch (Exception ex)
             {

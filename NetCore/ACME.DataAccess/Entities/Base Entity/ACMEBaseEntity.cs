@@ -7,6 +7,6 @@
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         [Column("ID")]
-        public virtual T Id { get; private set; }
+        public virtual T Id { get; set; }
     }
 }

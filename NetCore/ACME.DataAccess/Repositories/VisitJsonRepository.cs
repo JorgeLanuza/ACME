@@ -1,14 +1,14 @@
 ﻿namespace ACME.DataAccess.Repositories
 {
     using ACME.DataAccess.Entities;
-    using ACME.DataAccess.Repositories.Tools;
     using Microsoft.Extensions.Logging;
     using System.Reflection;
     using System.Text.Json;
-    using System.Text.Json.Serialization;
     public class VisitJsonRepository
     {
         private readonly ILogger<VisitJsonRepository> _logger;
+
+        private readonly string _fileName = "visits.json";
 
         private readonly string _jsonFilePath;
         public VisitJsonRepository(ILogger<VisitJsonRepository> logger)
@@ -38,6 +38,25 @@
                 return new List<VisitEntity>();
             }
         }
+        public async Task<IEnumerable<VisitEntity>> GetAllVisitsNotDeletedFromJsonAsync()
+        {
+            try
+            {
+                List<VisitEntity> visitEntities = await JsonDataLoader.LoadDataAsync<VisitEntity>(_fileName, _logger);
+                if (visitEntities == null || !visitEntities.Any())
+                {
+                    _logger.LogWarning("JSON file is empty or could not be deserialized.");
+                    return new List<VisitEntity>();
+                }
+                _logger.LogInformation("Successfully read {Count} records from JSON file.", visitEntities.Count);
+                return visitEntities.Where(visit => !visit.IsDeleted).ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error reading JSON file");
+                return new List<VisitEntity>();
+            }
+        }
         public async Task AddToJsonAsync(VisitEntity newVisit)
         {
             var visits = await GetAllFromJsonAsync() as List<VisitEntity> ?? new List<VisitEntity>();
@@ -54,13 +73,20 @@
                 await SaveToJsonAsync(visits);
             }
         }
-        public async Task<bool> DeleteFromJsonAsync(Guid selectedVisit)
+        public async Task<bool> DeleteFromJsonAsync(Guid visitId)
         {
-            if (await GetAllFromJsonAsync() is not List<VisitEntity> visits)
+            List<VisitEntity> visits = await JsonDataLoader.LoadDataAsync<VisitEntity>(_fileName, _logger);
+            var visitToDelete = visits.FirstOrDefault(v => v.Id == visitId);
+            if (visitToDelete == null)
+            {
+                _logger.LogWarning($"Visit {visitId} not found.");
                 return false;
-            visits.RemoveAll(visit => visit.Id == selectedVisit);
-            await SaveToJsonAsync(visits);
-            return true;
+            }
+
+            visitToDelete.IsDeleted = true;
+            _logger.LogInformation($"Visit {visitId} marked as deleted.");
+
+            return await JsonDataLoader.UpdateDataAsync(_fileName, visits, _logger);
         }
         public async Task<VisitEntity?> GetByIdAsync(Guid id)
         {

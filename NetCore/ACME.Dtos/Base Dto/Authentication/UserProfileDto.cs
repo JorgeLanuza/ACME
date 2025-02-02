@@ -1,8 +1,7 @@
 ﻿namespace ACME.Dtos.Base_Dto.Authentication
 {
-    public class UserProfileDto : ACMEDto<int>
+    public class UserProfileDto : ACMEDto<Guid>
     {
-        public Guid Id { get; set; }
         public string FullName { get; set; }
         public string Department { get; set; }
         public string Telephone { get; set; }
