@@ -64,22 +64,6 @@ La API estará disponible en `https://localhost:7194/api/VisitController`.
 - `DELETE /api/VisitController/DeleteAsync/{id}` **Acciones sobre el BBDD**: - Elimina una visita.
 - `DELETE /api/VisitController/DeleteFromJson/{id}` **Acciones sobre el Json**: - Elimina una visita.
 
-## Implementaciones Claves
-
-### 1. **Repositorio y Persistencia en JSON**
-Los datos de visitas se almacenan en `Assets/visits.json` mediante `VisitJsonRepository`, que permite lectura y escritura de datos de manera persistente.
-
-### 2. **Inyección de Dependencias con Autofac**
-El archivo `DependencyInjection.cs` registra los servicios y repositorios en Autofac para su uso en la aplicación.
-
-### 3. **Manejo de Excepciones**
-Se implementa un sistema de manejo de errores en los controladores para capturar y loguear excepciones.
-
-### 4. **Buenas Prácticas**
-- Uso de **DTOs** para desacoplar la lógica de negocio del modelo de datos.
-- **Principio SOLID**, especialmente Inyección de Dependencias.
-- **Logging estructurado** para seguimiento de eventos y errores.
-
 Desarrollado por Jorge Pérez de Lanuza para la prueba técnica solicitada sobre el asunto [JOB] [netDeveloper] - 2025.
 
 
