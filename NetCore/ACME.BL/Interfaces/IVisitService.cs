@@ -4,13 +4,17 @@
     using ACME.Dtos;
     public interface IVisitService : IACMEBaseService<VisitDto, Guid>
     {
-        Task<ACMECollectionServiceResult<VisitDto, Guid>> GetAllAsync();
-        Task<ACMECollectionServiceResult<VisitDto, Guid>> GetAllNotDeletedAsync();
-        Task<List<VisitDto>> GetAllFromJsonAsync();
-        Task<ACMEServiceResult<VisitDto, Guid>> GetByIdAsync(Guid id);
-        Task<ACMEServiceResult<VisitDto, Guid>> AddAsync(VisitDto dto);
-        Task<ACMEServiceResult<VisitDto, Guid>> UpdateAsync(VisitDto dto);
-        Task<ACMEServiceResult<VisitDto, Guid>> DeleteByIdAsync(Guid id);
+        new Task<ACMECollectionServiceResult<VisitDto, Guid>> GetAllAsync();
+        new Task<ACMECollectionServiceResult<VisitDto, Guid>> GetAllNotDeletedAsync();
+        new Task<ACMEServiceResult<VisitDto, Guid>> GetByIdAsync(Guid id);
+        new Task<ACMEServiceResult<VisitDto, Guid>> AddAsync(VisitDto dto);
+        new Task<ACMEServiceResult<VisitDto, Guid>> UpdateAsync(VisitDto dto);
+        new Task<ACMEServiceResult<VisitDto, Guid>> DeleteByIdAsync(Guid id);
+        Task<ACMECollectionServiceResult<VisitDto, Guid>> GetAllFromJsonAsync();
+        Task<ACMEServiceResult<VisitDto, Guid>> AddToJsonAsync(VisitDto newVisit);
+        Task<ACMEServiceResult<VisitDto, Guid>> GetByIdFromJsonAsync(Guid selectedVisitId);
+        Task<bool> DeleteFromJsonByIdAsync(Guid id);
+        Task<ACMEServiceResult<VisitDto, Guid>> UpdateFromJsonAsync(VisitDto currentVisitDto);
     }
 }
     

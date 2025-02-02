@@ -9,7 +9,6 @@
             return new MapperConfiguration(static cfg =>
             {
                 cfg.AddProfile(new BussinesProfile());
-                cfg.AddProfile(new MasterDataBLProfile());
             });
         }
     }

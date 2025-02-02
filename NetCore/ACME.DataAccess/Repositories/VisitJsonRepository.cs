@@ -1,5 +1,6 @@
 ﻿namespace ACME.DataAccess.Repositories
 {
+    using ACME.DataAccess.Entities;
     using ACME.DataAccess.Repositories.Tools;
     using ACME.Dtos;
     using Microsoft.Extensions.Logging;
@@ -14,18 +15,19 @@
         public VisitJsonRepository(ILogger<VisitJsonRepository> logger)
         {
             _logger = logger;
-            var basePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            _jsonFilePath = Path.Combine(basePath, "Assets", "visits.json");
+            string? basePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            if (basePath != null)
+                _jsonFilePath = Path.Combine(basePath, "Assets", "visits.json");
             _logger.LogInformation("JSON file path resolved to: {JsonFilePath}", _jsonFilePath);
         }
-        public async Task<IEnumerable<VisitDto>> GetAllFromJsonAsync()
+        public async Task<IEnumerable<VisitEntity>> GetAllFromJsonAsync()
         {
             try
             {
                 if (!File.Exists(_jsonFilePath))
                 {
                     _logger.LogWarning("JSON file not found: {JsonFilePath}", _jsonFilePath);
-                    return new List<VisitDto>();
+                    return new List<VisitEntity>();
                 }
                 string jsonData = await File.ReadAllTextAsync(_jsonFilePath);
                 JsonSerializerOptions options = new JsonSerializerOptions
@@ -33,46 +35,61 @@
                     PropertyNameCaseInsensitive = true,
                     Converters = { new JsonStringEnumConverter(), new GuidConverter() }
                 };
-                List<VisitDto> deserializedData = JsonSerializer.Deserialize<List<VisitDto>>(jsonData, options);
-                if (deserializedData == null || deserializedData.Count == 0)
+                IEnumerable<VisitEntity>? deserializedData = JsonSerializer.Deserialize<List<VisitEntity>>(jsonData, options);
+                if (deserializedData == null)
                 {
                     _logger.LogWarning("JSON file is empty or could not be deserialized.");
-                    return new List<VisitDto>();
+                    return new List<VisitEntity>();
                 }
-                _logger.LogInformation("Successfully read {Count} records from JSON file.", deserializedData.Count);
+                _logger.LogInformation("Successfully read {Count} records from JSON file.", deserializedData);
                 return deserializedData;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error reading JSON file");
-                return new List<VisitDto>();
+                return new List<VisitEntity>();
             }
         }
-        public async Task AddToJsonAsync(VisitDto visitDto)
+        public async Task AddToJsonAsync(VisitEntity newVisit)
         {
-            var visits = await GetAllFromJsonAsync() as List<VisitDto> ?? new List<VisitDto>();
-            visits.Add(visitDto);
+            var visits = await GetAllFromJsonAsync() as List<VisitEntity> ?? new List<VisitEntity>();
+            visits.Add(newVisit);
             await SaveToJsonAsync(visits);
         }
-        public async Task UpdateInJsonAsync(VisitDto visitDto)
+        public async Task UpdateInJsonAsync(VisitEntity currentVisit)
         {
-            var visits = await GetAllFromJsonAsync() as List<VisitDto> ?? new List<VisitDto>();
-            var index = visits.FindIndex(v => v.Id == visitDto.Id);
+            var visits = await GetAllFromJsonAsync() as List<VisitEntity> ?? new List<VisitEntity>();
+            var index = visits.FindIndex(visit => visit.Id == currentVisit.Id);
             if (index != -1)
             {
-                visits[index] = visitDto;
+                visits[index] = currentVisit;
                 await SaveToJsonAsync(visits);
             }
         }
-        public async Task DeleteFromJsonAsync(Guid id)
+        public async Task<bool> DeleteFromJsonAsync(Guid selectedVisit)
         {
-            var visits = await GetAllFromJsonAsync() as List<VisitDto> ?? new List<VisitDto>();
-            visits.RemoveAll(v => v.Id == id);
+            if (await GetAllFromJsonAsync() is not List<VisitEntity> visits)
+                return false;
+            visits.RemoveAll(visit => visit.Id == selectedVisit);
             await SaveToJsonAsync(visits);
+            return true;
         }
-        private async Task SaveToJsonAsync(List<VisitDto> visits)
+        public async Task<VisitEntity?> GetByIdAsync(Guid id)
         {
-            var jsonData = JsonSerializer.Serialize(visits, new JsonSerializerOptions { WriteIndented = true });
+            try
+            {
+                IEnumerable<VisitEntity> visits = await GetAllFromJsonAsync();
+                return visits.FirstOrDefault(v => v.Id == id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting element");
+                return null;
+            }
+        }
+        private async Task SaveToJsonAsync(List<VisitEntity> visits)
+        {
+            string jsonData = JsonSerializer.Serialize(visits, new JsonSerializerOptions { WriteIndented = true });
             await File.WriteAllTextAsync(_jsonFilePath, jsonData);
         }
     }

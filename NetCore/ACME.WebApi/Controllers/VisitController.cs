@@ -47,7 +47,7 @@
         {
             try
             {
-                var result = await _visitJsonRepository.GetAllFromJsonAsync();
+                var result = await _visitService.GetAllFromJsonAsync();
                 return Ok(result);
             }
             catch (Exception ex)
@@ -98,6 +98,30 @@
             }
         }
         /// <summary>
+        /// Acciones sobre el JSON.
+        /// Obtiene una visita por su ID.
+        /// </summary>
+        /// <param name="id">Identificador único de la visita.</param>
+        /// <returns>La visita correspondiente al ID proporcionado.</returns>
+        [HttpGet("[action]/{id}")]
+        public async Task<IActionResult> GetByIdFromJsonAsync(Guid id)
+        {
+            try
+            {
+                var result = await _visitService.GetByIdFromJsonAsync(id);
+                if (result == null)
+                {
+                    return NotFound();
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Controller error. Method: GetByIdFromJsonAsync()");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+        /// <summary>
         /// Agrega una nueva visita.
         /// </summary>
         /// <param name="visitDto">Objeto DTO de la visita a agregar.</param>
@@ -131,7 +155,7 @@
         {
             try
             {
-                await _visitJsonRepository.AddToJsonAsync(visitDto);
+                await _visitService.AddToJsonAsync(visitDto);
                 return Ok("Visit added to JSON");
             }
             catch (Exception ex)
@@ -175,7 +199,7 @@
         {
             try
             {
-                await _visitJsonRepository.UpdateInJsonAsync(visitDto);
+                await _visitService.UpdateFromJsonAsync(visitDto);
                 return Ok("Visit updated in JSON");
             }
             catch (Exception ex)
@@ -214,8 +238,8 @@
         {
             try
             {
-                await _visitJsonRepository.DeleteFromJsonAsync(id);
-                return Ok("Visit deleted from JSON");
+                bool response = await _visitService.DeleteFromJsonByIdAsync(id);
+                return Ok($"Visit deleted from JSON: {response}");
             }
             catch (Exception ex)
             {

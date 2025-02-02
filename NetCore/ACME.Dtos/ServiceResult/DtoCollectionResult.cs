@@ -1,4 +1,4 @@
-﻿namespace ACME.BL
+﻿namespace ACME.Dtos
 {
     public class DtoCollectionResult<T, TId>
     {

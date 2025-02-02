@@ -1,6 +1,5 @@
-﻿namespace ACME.BL
+﻿namespace ACME.Dtos
 {
-    using ACME.Dtos;
     using FluentValidation.Results;
     public class ACMEServiceResult<T, TId> where T : ACMEDto<TId>
     {
