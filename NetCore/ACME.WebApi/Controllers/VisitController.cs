@@ -1,6 +1,7 @@
 ﻿namespace ACME.WebApi.Controllers
 {
     using ACME.BL;
+    using ACME.BL.Services;
     using ACME.Dtos;
     using Microsoft.AspNetCore.Mvc;
     [ApiController]
@@ -12,8 +13,8 @@
         private readonly ILogger<VisitController> _logger;
         public VisitController(IVisitService visitService, ILogger<VisitController> logger)
         {
-            _visitService = visitService ?? throw new ArgumentNullException(nameof(visitService));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _visitService = visitService;
+            _logger = logger;
         }
 
         [HttpGet("[action]")]

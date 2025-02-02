@@ -21,9 +21,16 @@
             MapperConfiguration config = new(cfg => cfg.AddMaps(Assembly.GetExecutingAssembly()));
             IMapper mapper = config.CreateMapper();
             builder.RegisterInstance(mapper);
-            builder.RegisterType<VisitRepository>();
+            builder.RegisterType<ACMEContext>();
+            builder.Register(c =>
+            {
+                var optionsBuilder = new DbContextOptionsBuilder<ACMEContext>();
+                optionsBuilder.UseInMemoryDatabase("ACMEDatabase"); // Usa una DB en memoria
+                return new ACMEContext(optionsBuilder.Options);
+            }).AsSelf().InstancePerLifetimeScope();
+
+            builder.RegisterType<VisitRepository>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<VisitService>().As<IVisitService>().WithParameter("logger", new LoggerFactory().CreateLogger<VisitService>());
-            builder.RegisterType<VisitRepository>();
         }
     }
 }

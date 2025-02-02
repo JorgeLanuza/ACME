@@ -4,7 +4,7 @@
     using ACME.DataAccess.Entities.Authentication;
     using Microsoft.EntityFrameworkCore;
 
-    public class ACMEContext(DbContextOptions options) : DbContext(options)
+    public class ACMEContext(DbContextOptions<ACMEContext> options) : DbContext(options)
     {
         public DbSet<EmployeeEntity> Employees { get; set; }
         public DbSet<VisitEntity> Visits { get; set; }

@@ -9,7 +9,6 @@
     using AutoMapper;
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
-    using System.Security.Cryptography;
 
     public class VisitService : ACMEBaseService<VisitDto, VisitEntity, Guid>, IVisitService, IACMEBaseService<VisitDto, Guid>
     {
@@ -21,7 +20,7 @@
 
         private new VisitRepository Repository { get; }
 
-        public VisitService(ILogger<VisitService> logger, VisitRepository repository, IMapper mapper) 
+        public VisitService(ILogger<VisitService> logger, VisitRepository repository, IMapper mapper)
             : base(logger, (ACMERepository<VisitEntity, Guid>) repository, (IMapper)mapper, (ACMEBaseValidation<VisitDto>)null)
         {
             Repository = repository;
