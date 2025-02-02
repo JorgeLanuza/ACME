@@ -52,16 +52,16 @@ La API estará disponible en `https://localhost:7194/api/VisitController`.
 
 ### **VisitController**
 
-- `GET /api/VisitController/GetAllAsync` **Acciones sobre el BBDD**: - Obtiene todas las visitas registradas.
-- `GET /api/VisitController/GetFromJsonAsync` **Acciones sobre el Json**: - Obtiene todas las visitas registradas.
-- `GET /api/VisitController/GetAllNotDeletedAsync` **Acciones sobre el BBDD**: - Obtiene visitas que no han sido eliminadas.
-- `GET /api/VisitController/GetByIdAsync/{id}` **Acciones sobre el BBDD**: - Obtiene una visita por ID.
-- `GET /api/VisitController/GetByIdFromJsonAsync/{id}` **Acciones sobre el Json**: - Obtiene una visita por ID.
-- `POST /api/VisitController/AddAsync` **Acciones sobre el BBDD**: - Agrega una nueva visita.
-- `POST /api/VisitController/AddToJsonAsync` **Acciones sobre el Json**: - Agrega una nueva visita.
-- `PUT /api/VisitController/UpdateAsync/{id}` **Acciones sobre el BBDD**: - Actualiza una visita existente.
-- `PUT /api/VisitController/UpdateInJsonAsync/{id}` **Acciones sobre el Json**: - Actualiza una visita existente.
-- `DELETE /api/VisitController/DeleteAsync/{id}` **Acciones sobre el BBDD**: - Elimina una visita.
+- `GET /api/VisitController/GetAll` **Acciones sobre el BBDD**: - Obtiene todas las visitas registradas.
+- `GET /api/VisitController/GetFromJson` **Acciones sobre el Json**: - Obtiene todas las visitas registradas.
+- `GET /api/VisitController/GetAllNotDeleted` **Acciones sobre el BBDD**: - Obtiene visitas que no han sido eliminadas.
+- `GET /api/VisitController/GetById/{id}` **Acciones sobre el BBDD**: - Obtiene una visita por ID.
+- `GET /api/VisitController/GetByIdFromJson/{id}` **Acciones sobre el Json**: - Obtiene una visita por ID.
+- `POST /api/VisitController/Add` **Acciones sobre el BBDD**: - Agrega una nueva visita.
+- `POST /api/VisitController/AddToJson` **Acciones sobre el Json**: - Agrega una nueva visita.
+- `PUT /api/VisitController/Update/{id}` **Acciones sobre el BBDD**: - Actualiza una visita existente.
+- `PUT /api/VisitController/UpdateInJson/{id}` **Acciones sobre el Json**: - Actualiza una visita existente.
+- `DELETE /api/VisitController/Delete/{id}` **Acciones sobre el BBDD**: - Elimina una visita.
 - `DELETE /api/VisitController/DeleteFromJson/{id}` **Acciones sobre el Json**: - Elimina una visita.
 
 Desarrollado por Jorge Pérez de Lanuza para la prueba técnica solicitada sobre el asunto [JOB] [netDeveloper] - 2025.
