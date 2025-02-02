@@ -4,40 +4,40 @@
     using ACME.DataAccess.Entities.Authentication;
     using Microsoft.EntityFrameworkCore;
 
-    public class ACMEContext(DbContextOptions<ACMEContext> options) : DbContext(options)
+    public class ACMEContext : DbContext
     {
-        public DbSet<EmployeeEntity> Employees { get; set; }
+        public ACMEContext(DbContextOptions<ACMEContext> options) : base(options) { }
+
         public DbSet<VisitEntity> Visits { get; set; }
+
+        public DbSet<EmployeeEntity> Employees { get; set; }
+
         public DbSet<UserEntity> Users { get; set; }
-        public DbSet<UserProfileEntity> UserProfiles { get; set; }
+
         public DbSet<AuthenticationEntity> Authentications { get; set; }
+
+        public DbSet<UserProfileEntity> UserProfiles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            ConfigureDb(modelBuilder);
-            base.OnModelCreating(modelBuilder);
-        }
-        private static void ConfigureDb(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<EmployeeEntity>()
-                .HasMany(e => e.Visits)
-                .WithOne(v => v.Employee)
+            modelBuilder.Entity<VisitEntity>()
+                .HasOne(v => v.Employee)
+                .WithMany(e => e.Visits)
                 .HasForeignKey(v => v.EmployeeId)
-                .OnDelete(DeleteBehavior.Cascade);
-
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<EmployeeEntity>()
+                .HasBaseType<UserEntity>();
             modelBuilder.Entity<UserEntity>()
                 .HasOne(u => u.Authentication)
                 .WithOne()
-                .HasForeignKey<UserEntity>(u => u.AuthenticationId);
-
+                .HasForeignKey<UserEntity>(u => u.AuthenticationId)
+                .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<UserEntity>()
                 .HasOne(u => u.Profile)
                 .WithOne()
-                .HasForeignKey<UserEntity>(u => u.Id);
-        }
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            return base.SaveChangesAsync(cancellationToken);
+                .HasForeignKey<UserProfileEntity>(p => p.Id)
+                .OnDelete(DeleteBehavior.Cascade);
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

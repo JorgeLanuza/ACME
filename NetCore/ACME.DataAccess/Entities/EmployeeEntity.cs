@@ -1,7 +1,7 @@
 ﻿namespace ACME.DataAccess.Entities
 {
     using ACME.DataAccess.Entities.Authentication;
-    using System;
+    using ACME.Dtos.Base_Dto.Authentication;
     using System.Collections.Generic;
     public class EmployeeEntity: UserEntity
     {

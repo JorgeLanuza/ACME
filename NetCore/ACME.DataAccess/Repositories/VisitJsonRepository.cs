@@ -23,25 +23,14 @@
         {
             try
             {
-                if (!File.Exists(_jsonFilePath))
-                {
-                    _logger.LogWarning("JSON file not found: {JsonFilePath}", _jsonFilePath);
-                    return new List<VisitEntity>();
-                }
-                string jsonData = await File.ReadAllTextAsync(_jsonFilePath);
-                JsonSerializerOptions options = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true,
-                    Converters = { new JsonStringEnumConverter(), new GuidConverter() }
-                };
-                IEnumerable<VisitEntity>? deserializedData = JsonSerializer.Deserialize<List<VisitEntity>>(jsonData, options);
-                if (deserializedData == null)
+                var visitEntities = await JsonDataLoader.LoadDataAsync<VisitEntity>("visits.json", _logger);
+                if (visitEntities == null || !visitEntities.Any())
                 {
                     _logger.LogWarning("JSON file is empty or could not be deserialized.");
                     return new List<VisitEntity>();
                 }
-                _logger.LogInformation("Successfully read {Count} records from JSON file.", deserializedData);
-                return deserializedData;
+                _logger.LogInformation("Successfully read {Count} records from JSON file.", visitEntities.Count);
+                return visitEntities;
             }
             catch (Exception ex)
             {

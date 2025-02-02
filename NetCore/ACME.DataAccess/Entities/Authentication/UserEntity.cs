@@ -5,7 +5,7 @@
     public class UserEntity : ACMEBaseEntity<Guid>
     {
         [Column("AUTHENTICATION_ID")]
-        public string AuthenticationId { get; set; }
+        public Guid AuthenticationId { get; set; }
         public virtual AuthenticationEntity Authentication { get; set; }
 
         [Column("LOCKED")]

@@ -26,7 +26,7 @@
 
         [Column("EMPLOYEE_ID")]
         public Guid EmployeeId { get; set; }
-        public EmployeeEntity Employee { get; set; } = null!;
+        public EmployeeEntity Employee { get; set; }
 
         [Column("LOGTIMESTAMP")]
         public DateTime LogTimestamp { get; set; }

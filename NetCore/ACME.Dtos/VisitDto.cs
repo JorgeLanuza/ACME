@@ -8,8 +8,8 @@
         public bool IsDeleted { get; set; }
         public string? UserLastModified { get; set; }
         public DateTime DateLastModified { get; set; }
-        public DateTime LogTimestamp { get; set; }
-        public virtual EmployeeDto? Employee { get; set; }
         public Guid EmployeeId { get; set; }
+        public virtual EmployeeDto Employee { get; set; }
+        public DateTime LogTimestamp { get; set; }
     }
 }

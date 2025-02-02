@@ -1,11 +1,17 @@
 ﻿namespace ACME.DataAccess.Repositories
 {
+    using ACME.DataAccess.Repositories.Tools;
     using Microsoft.Extensions.Logging;
     using System.Text.Json;
     public static class JsonDataLoader
     {
-        private static readonly string _jsonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "visits.json");
+        private static readonly string _jsonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets");
 
+        private static readonly JsonSerializerOptions _jsonOptions = new()
+        {
+            PropertyNameCaseInsensitive = true,
+            Converters = { new GuidConverter() }
+        };
         public static async Task<List<T>> LoadDataAsync<T>(string fileName, ILogger? logger = null)
         {
             try
@@ -17,7 +23,7 @@
                     return new List<T>();
                 }
                 string jsonData = await File.ReadAllTextAsync(filePath);
-                return JsonSerializer.Deserialize<List<T>>(jsonData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<T>();
+                return JsonSerializer.Deserialize<List<T>>(jsonData, _jsonOptions) ?? new List<T>();
             }
             catch (Exception ex)
             {

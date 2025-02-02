@@ -8,7 +8,7 @@
     {
         [Key]
         [Column("AUTHENTICATION_ID")]
-        public string AuthenticationId { get; set; }
+        public Guid AuthenticationId { get; set; }
 
         [Column("PASSWORD")]
         public string Password { get; set; }
