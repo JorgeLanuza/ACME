@@ -161,14 +161,16 @@
             };
             try
             {
-                var allNotDeleted = await _jsonRepository.GetAllFromJsonAsync();
-                ACMECollectionServiceResult.ResultObject.Items = _mapper.Map<List<VisitDto>>(allNotDeleted)!;
+                var visitEntities = await _jsonRepository.GetAllFromJsonAsync();
+                ACMECollectionServiceResult.ResultObject.Items = _mapper.Map<List<VisitDto>>(visitEntities)!;
                 ACMECollectionServiceResult.ResultObject.CurrentPage = 1;
                 ACMECollectionServiceResult.ResultObject.PageCount = 1;
-                ACMECollectionServiceResult.ResultObject.PageSize = allNotDeleted.Count();
-                ACMECollectionServiceResult.ResultObject.RowCount = allNotDeleted.Count();
+                ACMECollectionServiceResult.ResultObject.PageSize = visitEntities.Count();
+                ACMECollectionServiceResult.ResultObject.RowCount = visitEntities.Count();
                 _logger.LogDebug(JsonConvert.SerializeObject(ACMECollectionServiceResult.ResultObject));
+
                 return ACMECollectionServiceResult;
+
             }
             catch (Exception ex)
             {

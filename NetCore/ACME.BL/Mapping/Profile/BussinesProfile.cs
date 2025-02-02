@@ -7,10 +7,13 @@
     {
         public BussinesProfile()
         {
-            CreateMap<VisitDto, VisitEntity>().ReverseMap().ForAllMembers(delegate (IMemberConfigurationExpression<VisitEntity, VisitDto, object> opts)
-            {
-                opts.Condition((VisitEntity src, VisitDto dest, object srcMember) => srcMember != null);
-            });
+            CreateMap<VisitEntity, VisitDto>()
+                .ForMember(dest => dest.Employee, opt => opt.MapFrom(src => src.Employee != null ? src.Employee : null))
+                .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<VisitDto, VisitEntity>()
+                .ForMember(dest => dest.Employee, opt => opt.Ignore())
+                .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
         }
+
     }
 }

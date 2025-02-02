@@ -1,6 +1,7 @@
 ﻿namespace ACME.IoC
 {
     using ACME.BL;
+    using ACME.BL.Mapping;
     using ACME.BL.Services;
     using ACME.DataAccess.Context;
     using ACME.DataAccess.Repositories;
@@ -16,8 +17,8 @@
         public static void RegisterDependencyInjector(ACMEContainerBuilder builder)
         {
             MapperConfiguration config = new(cfg => cfg.AddMaps(Assembly.GetExecutingAssembly()));
-            IMapper mapper = config.CreateMapper();
-            builder.RegisterInstance(mapper);
+            IMapper instance = MapperConfig.RegisterMappings().CreateMapper();
+            builder.RegisterInstance(instance);
             builder.RegisterType<ACMEContext>();
             builder.Register(c =>
             {
