@@ -18,12 +18,15 @@
 
         private new readonly IMapper _mapper;
 
+        private readonly VisitJsonRepository _jsonRepository;
+
         private new VisitRepository Repository { get; }
 
-        public VisitService(ILogger<VisitService> logger, VisitRepository repository, IMapper mapper)
+        public VisitService(ILogger<VisitService> logger, VisitRepository repository, VisitJsonRepository jsonRepository, IMapper mapper)
             : base(logger, (ACMERepository<VisitEntity, Guid>) repository, (IMapper)mapper, (ACMEBaseValidation<VisitDto>)null)
         {
             Repository = repository;
+            _jsonRepository = jsonRepository;
             _mapper = mapper;
             _logger = logger;
         }
@@ -105,5 +108,12 @@
             _logger.LogDebug(JsonConvert.SerializeObject(ACMEServiceResult.ResultObject));
             return ACMEServiceResult;
         }
+        #region Json Actions
+        public async Task<List<VisitDto>> GetAllFromJsonAsync()
+        {
+            var visits = await _jsonRepository.GetAllFromJsonAsync();
+            return _mapper.Map<List<VisitDto>>(visits);
+        }
+        #endregion Json Actions
     }
 }

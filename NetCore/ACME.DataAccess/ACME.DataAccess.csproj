@@ -13,5 +13,11 @@
 	<ItemGroup>
 		<ProjectReference Include="..\ACME.Dtos\ACME.Dtos.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+		<None Update="Assets\visits.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
 
 </Project>

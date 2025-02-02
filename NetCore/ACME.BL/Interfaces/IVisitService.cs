@@ -6,6 +6,7 @@
     {
         Task<ACMECollectionServiceResult<VisitDto, Guid>> GetAllAsync();
         Task<ACMECollectionServiceResult<VisitDto, Guid>> GetAllNotDeletedAsync();
+        Task<List<VisitDto>> GetAllFromJsonAsync();
         Task<ACMEServiceResult<VisitDto, Guid>> GetByIdAsync(Guid id);
         Task<ACMEServiceResult<VisitDto, Guid>> AddAsync(VisitDto dto);
         Task<ACMEServiceResult<VisitDto, Guid>> UpdateAsync(VisitDto dto);
