@@ -55,6 +55,7 @@ La API estará disponible en `https://localhost:7194/api/VisitController`.
 - `GET /api/VisitController/GetAll` **Acciones sobre el BBDD**: - Obtiene todas las visitas registradas.
 - `GET /api/VisitController/GetFromJson` **Acciones sobre el Json**: - Obtiene todas las visitas registradas.
 - `GET /api/VisitController/GetAllNotDeleted` **Acciones sobre el BBDD**: - Obtiene visitas que no han sido eliminadas.
+- `GET /api/VisitController/GetAllNotDeletedFromJsonAsync` **Acciones sobre el Json**: - Obtiene visitas que no han sido eliminadas.
 - `GET /api/VisitController/GetById/{id}` **Acciones sobre el BBDD**: - Obtiene una visita por ID.
 - `GET /api/VisitController/GetByIdFromJson/{id}` **Acciones sobre el Json**: - Obtiene una visita por ID.
 - `POST /api/VisitController/Add` **Acciones sobre el BBDD**: - Agrega una nueva visita.
